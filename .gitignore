@@ -1,0 +1,9 @@
+node_modules/
+dist/
+data/*
+!data/models/
+!data/backgrounds/
+data/models/*
+data/backgrounds/*
+!data/models/.gitkeep
+!data/backgrounds/.gitkeep

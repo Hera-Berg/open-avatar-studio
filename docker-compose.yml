@@ -1,0 +1,22 @@
+services:
+  studio:
+    build: .
+    ports:
+      - "3002:3002"   # control panel
+      - "3003:3003"   # stage — the OBS browser source
+      - "3100:3100"   # api + websocket
+    environment:
+      # Point at the host's open-avatar tracker if it runs outside the container.
+      TRACKER_URL: ${TRACKER_URL:-ws://host.docker.internal:3000/ws/v1/tracking}
+      TRACKER_DEBUG_URL: ${TRACKER_DEBUG_URL:-ws://host.docker.internal:3000/ws/v1/debug}
+    # Linux: host.docker.internal is not mapped by default, so the container
+    # could never resolve the tracker on the host. Map it to the host gateway.
+    # Harmless on Docker Desktop (Mac/Windows), where it already resolves.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - studio-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  studio-data:

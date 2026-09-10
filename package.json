@@ -1,0 +1,33 @@
+{
+  "name": "open-avatar-studio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "workspaces": [
+    "server",
+    "packages/*"
+  ],
+  "scripts": {
+    "sync:vendor": "node scripts/sync-vendor.mjs",
+    "predev": "npm run sync:vendor",
+    "prebuild": "npm run sync:vendor",
+    "dev": "concurrently -k -n server,stage,control -c blue,magenta,green \"npm run dev -w @oar/server\" \"npm run dev -w @oar/stage\" \"npm run dev -w @oar/control\"",
+    "build": "npm run build -w @oar/stage && npm run build -w @oar/control && npm run build -w @oar/server",
+    "typecheck": "npm run typecheck -w @oar/shared && npm run typecheck -w @oar/player && npm run typecheck -w @oar/stage && npm run typecheck -w @oar/control && npm run typecheck -w @oar/server",
+    "start": "node server/dist/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "fflate": "^0.8.2",
+    "poly2tri": "^1.5.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "esbuild": "^0.24.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "@types/node": "^22.10.2"
+  }
+}
